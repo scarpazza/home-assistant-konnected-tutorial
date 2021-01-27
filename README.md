@@ -4,8 +4,10 @@ This is a minimalistic, step-by-step tutorial on how to bring up a full-featured
 
 Motivation: I wrote this because I found existing documentation lacking on what specific functions are offered by the HA alarm panel, and what functions you must add yourself in order to bring up a functioning system.
 
-# Audience
-My ideal reader is someone who just unboxed his Konnected board (or boards) and wants to integrate them into a Home Assistant setup but has no prior experience doing so. This tutorial has many limitations and shows things by example rather than cover concepts in depth. That's by design: it's intended for audiences who are ok understand things as they bring them up, as opposed to audiences who want to master Home Assistant concepts in detail before writing any configuration code. I "learn with my hands". If you are like me, this tutorial might be a more useful initial starting point than HA documentation.
+## Audience
+My ideal reader is someone who just unboxed his Konnected board (or boards) and wants to integrate them into a Home Assistant setup but has no prior experience doing so. This tutorial has many limitations and shows things by example rather than cover concepts in depth. That's by design: it's intended for audiences who are ok understand things as they bring them up, as opposed to audiences who want to master Home Assistant concepts in detail before writing any configuration code. 
+
+I *learn with my hands*. If you are like me, this tutorial might be a more useful initial starting point than HA documentation.
 
 All my design decisions are arbitrary and tuned to my very personal needs. Change them according to your needs. All feedback is welcome, but I'll make corrections only workload and family permitting. I have a full time job, two kids and other hobbies.
 
@@ -13,8 +15,10 @@ All my design decisions are arbitrary and tuned to my very personal needs. Chang
 
 Start configuring the Konnected boards from the Konnected mobile phone app.
 This step is pretty straightforward and already documented plenty elsewhere.
+
 Once you are done, take a screenshot of your configuration page, as you will need it in the next step.
-(If you chose to use SmartThings rather than Home Assistant, you'd be already almost done at this step.)
+
+If you chose to use SmartThings rather than Home Assistant, you'd be already almost done at this step.
 
 ## Step 2 - integration
 
@@ -33,19 +37,32 @@ Good examples of descriptive names are "Bedroom window sensor", "Living room mot
 
 ## Step 3 - create the alarm automaton
 
-In this step you create the alarm "control panel" in Home Assistant terminology.
-Contrary to expectations, this panel performs only a few of the functions you would expect.
-Think of it not as a control panel but as a simple finite state machine, i.e., an automaton (spelled like I did, not to be confused with an automation).
-The control panel automaton has:
-1. a defined collection of states: disarmed, arming, armed_home, armed_away, pending, triggered;
-2. customizable delays between one state and the other, and
-3. UI code that displays the panel in the dashboard and takes your input.
-It is important to realize what the control panel DOES NOT do: it does not include triggers and responses. You'll need to write those yourself.Specifically:
-1. you will define what trigger cause each transition from one state to the other, except for the arm/disarm UI inputs. The most important among them will be what triggers the alarm;
-2. you will define the response: i.e., how  you want Home Assistant to react when the alarm triggers, is armed, is disarmed, become pending, etc.
-I cover triggers and responses in the next steps. In this step, you only configure the automaton.
-You do this by editing your configuration.yaml file.
-You might be surprised that I create two panels, one for intrusion and for fire/CO. I chose to do that because I want to be able to arm/disarm the intrusion alarm according to presence in the house, whereas I want fire/CO detection to be always active except for exceptional circumstances (e.g., when manually disarmed for maintenance or incident investigation).
+In this step you create what Home Assistant calls a "manual alarm control panel".
+
+Contrary to reasonable expectations, this panel performs only a few of the functions you would associate to a control panel.
+
+Think of it not as a fully featured alarm control panel, but rather as a simple finite state machine or *automaton*. 
+(Do not confuse automaton with automation - we will have instances of both.) 
+
+Specifically, the control panel automaton has:
+  1. a defined collection of states: disarmed, arming, armed_home, armed_away, pending, triggered;
+  2. customizable delays between one state and the other, and
+  3. user interface code that displays the panel in the dashboard and takes your input.
+
+It is important to realize what the control panel DOES NOT do: it does not include triggers and responses. You'll need to write those yourself.
+
+Specifically:
+  1. you will define what trigger cause each transition from one state to the other, except for the arm/disarm UI inputs. The most important among them will be what triggers the alarm;
+  2. you will define the response: i.e., how  you want Home Assistant to react when the alarm triggers, is armed, is disarmed, become pending, etc.
+  
+This tutorial covers triggers and responses in the next steps.
+In this step, you merely create the automaton.
+Do this by editing your configuration.yaml file. 
+
+You might be surprised by my example creating not one but two panels: one for intrusion and for fire/CO. 
+I chose to do that because I desire different behavior from the two panels. 
+For example, I want to be able to arm and disarm the intrusion alarm according to presence in the house, whereas I want fire/CO detection to be always active except for exceptional circumstances (e.g., when manually disarmed for maintenance or incident investigation).
+
 Here are the lines I added in my configuration.yaml
 
 ```
@@ -63,18 +80,21 @@ alarm_control_panel:
 ````
 
 Configuration options are as follows:
-* "Arming time" is the time you have to exit the house once you gave the order to arm the alarm
-* "Delay time" is the time you have to disarm the alarm once you come back in the house before the alarm triggers
-* "Trigger time" is how long your siren will sound (or equivalent trigger action will last) once the alarm triggers
+* `arming_time` is the time you have to exit the house once you gave the order to arm the alarm
+* `delay_time` is the time you have to disarm the alarm once you come back in the house before the alarm triggers
+* `trigger_time` is how long your siren will sound (or equivalent trigger action will last) once the alarm triggers
 
-Contrary to most examples you find on the internet, I chose NOT to set up a code. You should definitely set a code if you plan to install wall-mounted tablets in the house, to prevent burglars from disarming the system with a simple tap. 
-
+Contrary to most examples you find on the internet, I chose NOT to set up a code. 
+You should definitely set a code if you plan to install wall-mounted tablets in the house, to prevent burglars from disarming the system with a simple tap. 
 Otherwise, I recommend you do this later, and rather focus on fortifying security at the app/website login point.
 Can come back and tweak these setting later, including setting a code. At that point, you'll know enough the process that you can come back and choose options yourself from the HA "manual" documentation.
 
-# Step 4 - configuring sensor groups
+If you choose to set up a code, the alarm card in the UI will present you with a numeric keyboard to type that code. If you do not, the UI will hide that keyboard.
 
-In this step you aggregate your sensors in meaningful groups, creating as many as necessary, with special attention to groups that are ok to activate when you are home at night without triggering the alarm, and sensors that always trigger a response when the alarm is armed.
+
+## Step 4 - define sensor groups
+
+In this step you aggregate your sensors in meaningful groups, creating as many as necessary, with special attention to groups that you don't want to trigger the alarm when you are home at night, and sensors you always want to trigger a response if the alarm is armed.
 
 In my example, I group motion sensors together, door sensors together, and window sensors together.
 
@@ -114,12 +134,13 @@ window_sensors:
      - binary_sensor.tv_room_windows      
 ```
 
-# Step 5 - user interface
+## Step 5 - user interface
 
 In this step you add the alarm UI cards to the Lovelace dashboards.
 
 You need to create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
-In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours against your presence. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. If you don't have your Home Assistant phone app configured yet, I recommend you go configure it now, and definitely before you get to Step 7, where you will create "smart" automations.
+
+In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours, displaying it against your presence at home. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. If you don't have your Home Assistant phone app configured yet, I recommend you go configure it now, and definitely before you get to Step 7, where you will create "smart" automations.
 
 You should also create entity cards depicting the state of the individual sensors, and sensor groups. You'll be using them at least once during the walkaround, but I find it useful to see what's going on in the house.
 
@@ -202,7 +223,7 @@ I list the automations in order of importance, with the names that I suggest:
     * turn off the buzzer.
   * The reason why you want all these actions is to handle incoming transitions from all states (armed, pending, and triggered). The buzzer and the siren states are different depending on them. The actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a "clean" disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
 
-## Step 8 - Smart automations
+## Step 8 - create "smart" automations
 Consider creating additional "smart" automations, i.e., functions that traditional 1990s alarm systems did not have, and that take advantage of Home Assistant app features, most prominently mobile-phone-based presence detection.
 
 I won't describe them in length because you'll be an automation expert by now:
@@ -213,14 +234,20 @@ I won't describe them in length because you'll be an automation expert by now:
 * Intrusion: suggest arming (away) at a given time in the evening if not home. Sends you a notification reminding you to arm the system (armed_away) if you are not home at a given time in the evening.
 * ...
 
-# Step 9
+## Step 9 - repeat for the fire and CO alarm
 
 Repeat Steps 4...8 for the fire and carbon monoxide alarm system.
+
 You may want a separate dashboard, depending on the complexity of your system.
+
 You need a few automations. I implemented the following:
 * Fire/CO: trigger response - Siren - LEAVE ON EXCEPT WHEN TESTING
 * Fire/CO: trigger response - Buzzer
 * Fire/CO: disarm response
-* Fire/CO: auto-arm at noon
-All these rules involve the alarm_control_panel.fire_and_co_alarm panel instead of the home alarm panel used so far. I won't describe them in detail because they are a simplified version of those I already described for the intrusion alarm.
+* Fire/CO: unconditional auto-arm at noon
+
+Ensure that all these rules operate on `alarm_control_panel.fire_and_co_alarm` rather than the home alarm panel we used so far. 
+
+I won't describe them in detail because they are a simplified version of those I already described for the intrusion alarm.
+
 Fire/CO automations are fewer and simpler than those of the intrusion alarm because you basically want fire/CO protection to be always armed, regardless of where you are.
