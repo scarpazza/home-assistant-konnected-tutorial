@@ -57,13 +57,13 @@ Specifically:
   
 This tutorial covers triggers and responses in the next steps.
 In this step, you merely create the automaton.
-Do this by editing your configuration.yaml file. 
+Do this by editing your `configuration.yaml` file. 
 
 You might be surprised by my example creating not one but two panels: one for intrusion and for fire/CO. 
 I chose to do that because I desire different behavior from the two panels. 
 For example, I want to be able to arm and disarm the intrusion alarm according to presence in the house, whereas I want fire/CO detection to be always active except for exceptional circumstances (e.g., when manually disarmed for maintenance or incident investigation).
 
-Here are the lines I added in my configuration.yaml
+Here are the lines I added in my `configuration.yaml`:
 
 ```
 alarm_control_panel:
@@ -102,7 +102,8 @@ The only purpose of this step is to simplify trigger rules and sensor testing wh
 
 If you don't care about separating sensors by type, it's still useful to at least put them all in a single group, to simplify trigger automation.
 
-You do this by adding the following contents to your groups.yaml file.You might have to remove the original [] contents, if that's what you have in that file.
+You do this by adding the following contents to your `groups.yaml` file.
+You might have to remove the original `[]` contents, if that's what you have in that file.
 
 ```
 motion_sensors:                                                                                                          
@@ -140,7 +141,9 @@ In this step you add the alarm UI cards to the Lovelace dashboards.
 
 You need to create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
 
-In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours, displaying it against your presence at home. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. If you don't have your Home Assistant phone app configured yet, I recommend you go configure it now, and definitely before you get to Step 7, where you will create "smart" automations.
+In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours, displaying it against your presence at home. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. 
+
+If you don't have your Home Assistant phone app configured yet, I recommend you go configure it now, and definitely before you get to Step 8, during which you will create "smart" automations.
 
 You should also create entity cards depicting the state of the individual sensors, and sensor groups. You'll be using them at least once during the walkaround, but I find it useful to see what's going on in the house.
 
@@ -221,7 +224,7 @@ I list the automations in order of importance, with the names that I suggest:
     * turn on buzzer
     * add a 1-2 seconds delay, then
     * turn off the buzzer.
-  * The reason why you want all these actions is to handle incoming transitions from all states (armed, pending, and triggered). The buzzer and the siren states are different depending on them. The actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a "clean" disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
+  * The reason why you want all these actions is to handle incoming transitions from all states (armed, pending, and triggered). The buzzer and the siren states are different depending on them. The actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a clean disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
 
 ## Step 8 - create "smart" automations
 Consider creating additional "smart" automations, i.e., functions that traditional 1990s alarm systems did not have, and that take advantage of Home Assistant app features, most prominently mobile-phone-based presence detection.
