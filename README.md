@@ -49,8 +49,8 @@ Specifically, the control panel automaton has:
   2. customizable delays between one state and the other, and
   3. user interface code that displays the panel in the dashboard and takes your input.
 
-It is important to realize what the control panel DOES NOT do: it does not include triggers and responses. You'll need to write those yourself.
 
+It is important to realize what the control panel DOES NOT do: it does not include triggers and responses. You'll need to write those yourself.
 Specifically:
   1. you will define what trigger cause each transition from one state to the other, except for the arm/disarm UI inputs. The most important among them will be what triggers the alarm;
   2. you will define the response: i.e., how  you want Home Assistant to react when the alarm triggers, is armed, is disarmed, become pending, etc.
@@ -147,9 +147,10 @@ If you don't have your Home Assistant phone app configured yet, I recommend you 
 
 You should also create entity cards depicting the state of the individual sensors, and sensor groups. You'll be using them at least once during the walkaround, but I find it useful to see what's going on in the house.
 
-Here is my security dashboard at the end of my Step 4: TO DO
+For illustration purposes, here is my security dashboard at the end of this step: 
+![Sample security dashboard](https://imgur.com/DAL00GR)
 
-Security dashboard example
+
 
 ## Step 6 - walkaround
 
