@@ -148,7 +148,7 @@ If you don't have your Home Assistant phone app configured yet, I recommend you 
 You should also create entity cards depicting the state of the individual sensors, and sensor groups. You'll be using them at least once during the walkaround, but I find it useful to see what's going on in the house.
 
 For illustration purposes, here is my security dashboard at the end of this step: 
-![Sample security dashboard](https://imgur.com/DAL00GR)
+![Sample security dashboard](https://i.imgur.com/DAL00GR.png)
 
 
 
