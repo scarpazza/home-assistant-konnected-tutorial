@@ -191,7 +191,7 @@ I list the automations in order of importance, with the names that I suggest:
   * under Conditions, select that State of `alarm_control_panel.home_alarm` is `armed_away`;
   * under Actions
   * add an action of type "Call Service", specifying service alarm_control_panel.alarm_trigger for entity alarm_control_panel.home_alarm (leave Service Data empty); then add a second action of type "Call Service" specifying service notify.notify with Service Data `message: Intrusion Alarm is triggering now` or a message of your preference.
-  * Pay attention that this rule only causes the alarm panel state machine to go from `armed` to `pending. The actual response to a trigger is defined in another rule, below.
+  * Pay attention that this rule only causes the alarm panel state machine to go from `armed` to `pending`. The actual response to a trigger is defined in another rule, below.
 
 * Intrusion: trigger list - Armed Home:
   * Create this rule by duplicating the previous one. Then, in this rule, you remove one of the triggers, specifically you remove the motion sensor group.
@@ -200,7 +200,7 @@ I list the automations in order of importance, with the names that I suggest:
   
 * Intrusion: buzz when arming
   * this is a very simple rule
-  * when the State of `alarm_control_panel.home_alarm` changes to arming
+  * when the State of `alarm_control_panel.home_alarm` changes to `arming`
   * leave Conditions empty,
   * under Actions, add one action
     * of type Device,
@@ -211,7 +211,7 @@ I list the automations in order of importance, with the names that I suggest:
   * when the State of `alarm_control_panel.home_alarm` changes from `arming` (leave "to" empty),
   * action is "Turn off the buzzer".
 * Intrusion: pre-trigger warning:
-  * when the State of alarm_control_panel.home_alarm becomes "pending",
+  * when the State of `alarm_control_panel.home_alarm` becomes `pending`,
   * Actions:
     * send a notification
       * title: INTRUSION DETECTED
@@ -225,7 +225,7 @@ I list the automations in order of importance, with the names that I suggest:
     * turn on buzzer
     * add a 1-2 seconds delay, then
     * turn off the buzzer.
-  * The reason why you want all these actions is to handle incoming transitions from all states (armed, pending, and triggered). The buzzer and the siren states are different depending on them. The actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a clean disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
+  * The reason why you want all these actions is to handle incoming transitions from any states (`armed`, `pending`, and `triggered`). The buzzer and the siren states are different depending on them. The actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a clean disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
 
 ## Step 8 - create "smart" automations
 Consider creating additional "smart" automations, i.e., functions that traditional 1990s alarm systems did not have, and that take advantage of Home Assistant app features, most prominently mobile-phone-based presence detection.
