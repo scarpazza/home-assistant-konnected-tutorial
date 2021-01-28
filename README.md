@@ -45,7 +45,7 @@ Think of it not as a fully featured alarm control panel, but rather as a simple 
 (Do not confuse automaton with automation - we will have instances of both.) 
 
 Specifically, the control panel automaton has:
-  1. a defined collection of states: disarmed, arming, armed_home, armed_away, pending, triggered;
+  1. a defined collection of states: `disarmed`, `arming`, `armed_home`, `armed_away`, `pending`, `triggered;
   2. customizable delays between one state and the other, and
   3. user interface code that displays the panel in the dashboard and takes your input.
 
@@ -87,7 +87,7 @@ Configuration options are as follows:
 Contrary to most examples you find on the internet, I chose NOT to set up a code. 
 You should definitely set a code if you plan to install wall-mounted tablets in the house, to prevent burglars from disarming the system with a simple tap. 
 Otherwise, I recommend you do this later, and rather focus on fortifying security at the app/website login point.
-Can come back and tweak these setting later, including setting a code. At that point, you'll know enough the process that you can come back and choose options yourself from the HA "manual" documentation.
+Can come back and tweak these setting later, including setting a code. At that point, you'll know enough the process that you can come back and choose options yourself from the HA `manual` documentation.
 
 If you choose to set up a code, the alarm card in the UI will present you with a numeric keyboard to type that code. If you do not, the UI will hide that keyboard.
 
@@ -164,17 +164,17 @@ In this step you will create automations (alarm triggers and responses) that per
 
 I recommend the automations described below. They are quite a few. Of course my setup is arbitrary and could be done in a gazillion alternate, but this is a relatively comprehensive example and it works well with my mental representation of the alarm state machine. Modify it as you please.
 
-Consider that the when your triggers fire, the alarm does NOT go into "triggered". It goes instead into the "pending" status. This is a the 30 seconds grace period in which you go "oh, f'ck the alarm is on! let me disarm it!" and scramble to reach for your Home Assistant app as you drop your groceries. I sound the buzzer during that period.
+Consider that the when your triggers fire, the alarm does NOT transition to state `triggered`. It goes instead into the `pending` state. This is a the 30 seconds grace period in which you go "oh, f'ck the alarm is on! let me disarm it!" and scramble to reach for your Home Assistant app as you drop your groceries. I sound the buzzer during that period.
 
-Similarly, when press the "arm home"  or "arm away" buttons, the alarm transitions into the "arming" state before it transitions into the respective armed status. That's designed to give you time to exit the house. I also sound the buzzer during that period.
+Similarly, when press the "arm home"  or "arm away" buttons, the alarm transitions into the `arming` state before it transitions into the respective armed status. That's designed to give you time to exit the house. I also sound the buzzer during that period.
 
 I list the automations in order of importance, with the names that I suggest:
 
 * Intrusion: Response - Siren.
-   * the trigger is based on the State of alarm_control_panel.home_alarm, specifically if it changes to "triggered".
+   * the trigger is based on the State of `alarm_control_panel.home_alarm, specifically if it changes to `triggered`.
    * Leave Conditions empty.
    * Add two actions:
-     * add an action of type "Call Service" specifying service notify.notify with the following Service Data:title: Intrusion in progress!message: 'Alarm triggered at {{ states(''sensor.date_time'') }}'or a message of your preference.
+     * add an action of type "Call Service" specifying service `notify.notify` with the following Service Data: `title: Intrusion in progress! message: 'Alarm triggered at {{ states(''sensor.date_time'') }}'` or a message of your preference.
      * add an action of type Device, for device "Konnected Alarm Panel Pro" (or whatever name you chose for the integration), and Action "Turn on Siren" (assuming that you named "Siren" the output terminal connected to your siren).
    * if you have smart lighting controlled by Home Assistant, consider adding here actions to turn on the lights inside and outside the house as appropriate.
 
@@ -185,22 +185,22 @@ I list the automations in order of importance, with the names that I suggest:
 
 * Intrusion: Trigger list - Armed Away
   * in this rule, you add Three triggers:
-    * if the State of group.door_sensors changes to on, or
-    * if the State of group.window_sensors changes to on, or
-    * if the State of group.motion_sensors changes to on;
-  * under Conditions, select that State of alarm_control_panel.home_alarm is armed_away;
+    * if the State of `group.door_sensors` changes to on, or
+    * if the State of `group.window_sensors` changes to on, or
+    * if the State of `group.motion_sensors` changes to on;
+  * under Conditions, select that State of `alarm_control_panel.home_alarm` is `armed_away`;
   * under Actions
-  * add an action of type "Call Service", specifying service alarm_control_panel.alarm_trigger for entity alarm_control_panel.home_alarm (leave Service Data empty); then add a second action of type "Call Service" specifying service notify.notify with Service Data "message: Intrusion Alarm is triggering now" or a message of your preference.
-  * Pay attention that this rule only causes the alarm panel state machine to go from "armed" to "pending". The actual response to a trigger is defined in another rule, below.
+  * add an action of type "Call Service", specifying service alarm_control_panel.alarm_trigger for entity alarm_control_panel.home_alarm (leave Service Data empty); then add a second action of type "Call Service" specifying service notify.notify with Service Data `message: Intrusion Alarm is triggering now` or a message of your preference.
+  * Pay attention that this rule only causes the alarm panel state machine to go from `armed` to `pending. The actual response to a trigger is defined in another rule, below.
 
 * Intrusion: trigger list - Armed Home:
   * Create this rule by duplicating the previous one. Then, in this rule, you remove one of the triggers, specifically you remove the motion sensor group.
   * The rationale is that when you are home and arm the alarm (e.g., for the night), you still want the alarm to trigger if a door or window opens, but not if people move around inside the house.
-  * Under Conditions, select that State of alarm_control_panel.home_alarm is armed_home;
+  * Under Conditions, select that State of `alarm_control_panel.home_alarm` is `armed_home`;
   
 * Intrusion: buzz when arming
   * this is a very simple rule
-  * when the State of alarm_control_panel.home_alarm changes to arming
+  * when the State of `alarm_control_panel.home_alarm` changes to arming
   * leave Conditions empty,
   * under Actions, add one action
     * of type Device,
@@ -208,7 +208,7 @@ I list the automations in order of importance, with the names that I suggest:
     * and Action "Turn on Buzzer" (assuming that you named "Buzzer" the output terminal connected to your buzzer).
 * Intrusion: stop buzz when armed
   * This is a mirror image of the previous rule. Create it by duplicating the previous one.
-  * when the State of alarm_control_panel.home_alarm changes from arming (leave "to" empty),
+  * when the State of `alarm_control_panel.home_alarm` changes from `arming` (leave "to" empty),
   * action is "Turn off the buzzer".
 * Intrusion: pre-trigger warning:
   * when the State of alarm_control_panel.home_alarm becomes "pending",
@@ -218,7 +218,7 @@ I list the automations in order of importance, with the names that I suggest:
       * message: Disarm the system NOW if you want to prevent the siren from activating.
     * turn on the buzzer
 * Intrusion: disarm response
-  * When the State of alarm_control_panel.home_alarm becomes disarmed
+  * When the State of `alarm_control_panel.home_alarm` becomes `disarmed`
   * Actions:
     * turn off the siren,
     * send an appropriate notification
