@@ -45,7 +45,7 @@ Think of it not as a fully featured alarm control panel, but rather as a simple 
 (Do not confuse automaton with automation - we will have instances of both.) 
 
 Specifically, the control panel automaton has:
-  1. a defined collection of states: `disarmed`, `arming`, `armed_home`, `armed_away`, `pending`, `triggered;
+  1. a defined collection of states: `disarmed`, `arming`, `armed_home`, `armed_away`, `pending`, `triggered`;
   2. customizable delays between one state and the other, and
   3. user interface code that displays the panel in the dashboard and takes your input.
 
