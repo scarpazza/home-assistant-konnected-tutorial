@@ -17,12 +17,26 @@ All feedback is welcome, but I'll make corrections only workload and family perm
 
 ## Step 1 - configure the boards
 
-Start configuring the Konnected boards from the Konnected mobile phone app.
-This step is pretty straightforward and already documented plenty elsewhere.
+Start configuring the Konnected boards from the Konnected mobile phone app including inclusion into your home wi-fi network. While this step is pretty straightforward and already documented plenty elsewhere, there is one important caveat that has to do with your phone's OS.
 
-Once you are done, take a screenshot of your configuration page, as you will need it in the next step.
+At one point during the setup of a new board, the Konnected app will require you to join the konnected-<device id> wi-fi, and will open up your phone's wi-fi settings page for you to do so.
 
-If you chose to use SmartThings rather than Home Assistant, you'd be already almost done at this step.
+On Android phones, pay special attention to your phone's notifications, including one saying
+```
+Wi-fi has no internet access
+Touch for options
+```
+Do touch that notification, which leads to a dialog box informing you that
+```
+This network has no internet access. 
+Stay connected? [No] [Yes]
+```
+You must select the checkbox "Don't ask again for this network" and tap "Yes". 
+Failing to do so might well cause your Android phone to revert automatically to your home network (without warning), thus preventing communication with the Konnected board.
+
+You now have the options to configure Zones and Sensors in the Konnected app. You only need to do so if you plan to register your board with the Konnected Cloud, which is only necessary if you plan to integrate it into Samsung's SmartThings.
+
+The decision is up to you: the device can be operated in the SmartThings and Home Assistant ecosystems concurrently. If you choose to do so, consider taking a screenshot of your configuration page, in order to ensure it is consistent with the Home Assistant configuration you will specify in the next step.
 
 
 ## Step 2 - integration
