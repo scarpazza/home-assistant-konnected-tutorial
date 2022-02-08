@@ -1,3 +1,10 @@
+# Arm the alarm automatically at your bed time (10pm in the example below) if:
+# (1) the alarm was not already armed, and 
+# (2) the family is home
+#
+# Send mobile notifications with tag "intrusion-auto-arm-disarm" - thus overwriting previous notifications
+# of the same event type. This avoid HA notification accumulation in the mobile app.
+
 alias: 'Intrusion: auto-arm at 10pm if we are home'
 description: ''
 trigger:
