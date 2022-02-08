@@ -204,7 +204,7 @@ I list the automations in order of importance, with the names that I suggest:
   * You'll use this automation to test that the alarm is triggering during those hours in which you can't operate a siren.
   * For the purpose of those tests and ONLY during those tests, you will leave this automation enabled, and the previous one disabled.
 
-* Intrusion: Trigger list - Armed Away
+* Intrusion: [Trigger list - Armed Away](trigger-list-away.yaml)
   * in this rule, you add Three triggers:
     * if the State of `group.door_sensors` changes to `on`, or
     * if the State of `group.window_sensors` changes to `on`, or
@@ -216,7 +216,7 @@ I list the automations in order of importance, with the names that I suggest:
     * add an action of type "Call Service" specifying service `notify.notify` with Service Data `message: Intrusion Alarm is triggering now` or a message of your choice;
   * pay attention to the fact that that this automation only causes the alarm state machine to transition from `armed` to `pending`. This automation defines no response. I leave that to a separate rule, below.
 
-* Intrusion: trigger list - Armed Home
+* Intrusion: [Trigger list - Armed Home](trigger-list-home.yaml)
   * Create this rule by duplicating the previous one
   * in this rule, you will remove all triggers associated with indoor movement
 , specifically you remove the motion sensor group.
@@ -259,12 +259,10 @@ You should now consider creating "smart" automations, i.e., alarm-related functi
 I won't describe them in length because you'll be an automation expert by now. 
 I found the following to be useful:
 
-* Intrusion: [auto-arm at a given time in the evening if you are home](auto-arm.yaml)
+* Intrusion: [auto-arm at bed time if you are home](auto-arm.yaml)
 
-* Intrusion: auto-disarm the system at your typical wake-up time
-  * if it was in the `armed_home` state and 
-  * if you are home;
-
+* Intrusion: [auto-disarm the system at your typical wake-up time](auto-disarml.yaml)
+  
 * Intrusion: disarm reminder - returning home
   * sends you a notification reminding you to disarm the system 
   * if you are coming home 
