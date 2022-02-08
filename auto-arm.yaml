@@ -1,0 +1,31 @@
+alias: 'Intrusion: auto-arm at 10pm if we are home'
+description: ''
+trigger:
+  - platform: time
+    at: '22:00:00'
+condition:
+  - condition: state
+    entity_id: group.family
+    state: home
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: disarmed
+action:
+  - service: alarm_control_panel.alarm_arm_home
+    data: {}
+    entity_id: alarm_control_panel.home_alarm
+  - service: notify.notify
+    data:
+      title: Home Alarm now ARMED/HOME
+      message: >-
+        The alarm arms automatically in home mode at 10:pm when the family is
+        home.
+      data:
+        tag: intrusion-auto-arm-disarm
+  - service: script.sonos_say
+    data:
+      sonos_entity: media_player.kitchen
+      volume: 0.4
+      message: The alarm is now armed
+      delay: '00:00:05'
+mode: single
