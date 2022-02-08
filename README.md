@@ -259,7 +259,7 @@ You should now consider creating "smart" automations, i.e., alarm-related functi
 I won't describe them in length because you'll be an automation expert by now. 
 I found the following to be useful:
 
-* Intrusion: auto-arm at a given time in the evening if you are home
+* Intrusion: [auto-arm at a given time in the evening if you are home] (auto-arm.yaml)
 
 * Intrusion: auto-disarm the system at your typical wake-up time
   * if it was in the `armed_home` state and 
