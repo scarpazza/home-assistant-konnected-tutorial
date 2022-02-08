@@ -1,0 +1,25 @@
+# Add here the list of triggers that you want to activate the intrusion alarm when you are home. 
+#
+# This list will typically be a duplicate of the one in "trigger-list-away.yaml" with the exception of motion sensors.
+# Notably, you do not want motion sensors to appear here, because when home you typically want the freedom to roam around without triggering any alarm.
+#
+
+alias: 'Intrusion: Trigger list - Armed Home'
+description: >-
+  Defines the triggers that cause the alarm to activate when in Armed Home
+  state.
+trigger:
+  - platform: state
+    entity_id: group.door_sensors
+    to: 'on'
+  - platform: state
+    entity_id: group.window_sensors
+    to: 'on'
+condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_home
+action:
+  - service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.home_alarm
+mode: single
