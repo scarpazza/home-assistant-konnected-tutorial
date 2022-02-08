@@ -1,0 +1,22 @@
+alias: 'Intrusion: suggest arming (away) if nobody home in the evening'
+description: 'Notify users suggesting them to arm the alarm in away mode if no member of the family is home in the evening'
+trigger:
+  - platform: time
+    at: '23:00:00'
+condition:
+  - condition: state
+    entity_id: group.family
+    state: not_home
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: disarmed
+action:
+  - service: notify.notify
+    data:
+      title: Home Alarm ARM?
+      message: >-
+        It is late and you are not home. Should you arm the home alarm (away
+        mode)?
+      data:
+        tag: intrusion-suggest-arm
+mode: single
