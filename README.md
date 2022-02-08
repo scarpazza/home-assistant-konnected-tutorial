@@ -275,10 +275,10 @@ I found the following to be useful:
   * the reminder gives you the option *not* to arm the system if you know there are non-app occupants home (e.g., relatives, babysitters, etc.). 
   * if you know with certainty that you will never leave the home to non-tracked occupants, you can change this automation so that it arms the system.
   
-* Intrusion: suggest arming (away) at a given time in the evening if not home
-  * Sends you a notification reminding you to arm the system (`armed_away`) 
-  * if you are not home 
-  * at a given time in the evening.
+* Intrusion: [suggest arming the system when everybody has left the home](suggest-arm-everybody-left.yaml)
+  
+* Intrusion: [suggest arming the system when nobody is home at night](suggest-arm-late-nobody-home.yaml)
+  Suggest arming (away) at a given time in the evening if no member of the family is home
 
 ## Step 9 - repeat for the fire/CO alarm
 
