@@ -1,0 +1,22 @@
+alias: 'Intrusion: auto-disarm at 5:30am if the family is home'
+description: ''
+trigger:
+  - platform: time
+    at: '05:30:00'
+condition:
+  - condition: state
+    entity_id: group.family
+    state: home
+action:
+  - service: alarm_control_panel.alarm_disarm
+    data: {}
+    entity_id: alarm_control_panel.home_alarm
+  - service: notify.notify
+    data:
+      title: Home Alarm Disarmed
+      message: >-
+        The alarm is automatically disarmed at 6:20 am when one member of the
+        family is home.
+      data:
+        tag: intrusion-auto-arm-disarm
+mode: single
