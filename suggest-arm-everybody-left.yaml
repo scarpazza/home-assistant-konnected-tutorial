@@ -1,0 +1,17 @@
+alias: 'Intrusion: suggest arm when everybody leaves'
+description: 'Send a notification suggesting users to arm the alarm away when all family members have left the home'
+trigger:
+  - platform: state
+    entity_id: group.scarpazzas
+    to: not_home
+condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: disarmed
+action:
+  - service: notify.notify
+    data:
+      message: You left. Consider arming the alarm in away mode
+      data:
+        tag: intrusion-suggest-arm
+mode: single
