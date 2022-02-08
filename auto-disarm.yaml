@@ -1,3 +1,10 @@
+# Disarm the alarm automatically at your preferred wake-up time (5:30am in the example below) if:
+# (1) the alarm was armed, and 
+# (2) at least one member of the family is at home
+#
+# Send mobile notifications with tag "intrusion-auto-arm-disarm" - thus overwriting previous notifications
+# of the same event type.
+
 alias: 'Intrusion: auto-disarm at 5:30am if the family is home'
 description: ''
 trigger:
