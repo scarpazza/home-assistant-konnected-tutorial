@@ -11,12 +11,31 @@ condition:
     entity_id: alarm_control_panel.home_alarm
     state: disarmed
 action:
-  - service: notify.notify
+  - service: notify.mobile_app_SAMPLE_ANDROID_PHONE
     data:
-      title: Home Alarm ARM?
-      message: >-
-        It is late and you are not home. Should you arm the home alarm (away
-        mode)?
+      message: It is late and nobody is home. Arm the system?
       data:
         tag: intrusion-suggest-arm
+        url: /lovelace/security
+        actions:
+          - action: ARM_AWAY
+            title: Arm away
+          - action: DO_NOTHING
+            title: Do nothing
+      title: Consider arming the intrusion alarm
+  - service: notify.mobile_app_SAMPLE_IPHONE
+    data:
+      message: >-
+        It is late and nobody is home. Arm the system? Long press to see
+        options.
+      data:
+        tag: intrusion-suggest-arm
+        url: /lovelace/security
+        actions:
+          - action: ARM_AWAY
+            title: Arm away
+            destructive: true
+          - action: DO_NOTHING
+            title: Hide this notification
+      title: Consider arming the intrusion alarm
 mode: single
