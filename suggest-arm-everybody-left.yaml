@@ -1,17 +1,41 @@
-alias: 'Intrusion: suggest arm when everybody leaves'
-description: 'Send a notification suggesting users to arm the alarm away when all family members have left the home'
+# Attention: 
+# - group.family is a placeholder for your group containing the members of your family 
+# - mobile_app_YOUR_PHONE1 and mobile_app_YOUR_PHONE2 are placeholders for your mobile app instance names, typically one per phone
+#
+
+alias: 'Intrusion: suggest arming when everybody leaves'
+description: Whenever all members of the family leave, present the choice to arm the alarm
 trigger:
   - platform: state
-    entity_id: group.scarpazzas
+    entity_id: group.family
     to: not_home
 condition:
   - condition: state
     entity_id: alarm_control_panel.home_alarm
     state: disarmed
 action:
-  - service: notify.notify
+  - service: notify.mobile_app_YOUR_PHONE1
     data:
-      message: You left. Consider arming the alarm in away mode
+      message: Everybody left. Arm the burglary alarm?
       data:
         tag: intrusion-suggest-arm
+        actions:
+          - action: ARM_AWAY
+            title: Arm away
+          - action: ARM_HOME
+            title: Arm home
+          - action: DO_NOTHING
+            title: Do nothing
+  - service: notify.mobile_app_YOUR_PHONE2
+    data:
+      message: Everybody left. Arm the burglary alarm?
+      data:
+        tag: intrusion-suggest-arm
+        actions:
+          - action: ARM_AWAY
+            title: Arm away
+          - action: ARM_HOME
+            title: Arm home
+          - action: DO_NOTHING
+            title: Do nothing
 mode: single
