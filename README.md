@@ -191,13 +191,15 @@ Similarly, when press the "arm home"  or "arm away" buttons, the alarm transitio
 
 I list the automations in order of importance, with the names that I suggest:
 
-* Intrusion: Response - Siren
-   * the Trigger is based on the State of `alarm_control_panel.home_alarm` changing to `triggered`
-   * leave Conditions empty
-   * add two Actions:
-     * add an action of type "Call Service" for service `notify.notify` with the following Service Data: `title: Intrusion in progress! message: 'Alarm triggered at {{ states(''sensor.date_time'') }}'`. Customize the message per your preferences
-     * add an action of type "Device" for device "Konnected Alarm Panel Pro" (or the name you chose) and Action "Turn on Siren" (assuming that you named "Siren" the output terminal connected to your siren)
-   * if you have smart lighting controlled by Home Assistant, consider adding here actions to turn on those indoor/outdoor lights you'd want on if a burglary was in progress.
+* Intrusion: [Trigger response - siren](trigger-response-siren.yaml)
+   * in this automation, list what actions you want the system to carry out when the alarm triggers, i.e., when it believes that an actual intrusion is in progress
+   * the trigger for this automation is a state transition of `alarm_control_panel.home_alarm` changing to `triggered`
+   * there are no conditions
+   * the actions are:
+     * "Call Service" for service `notify.notify` with a notification message. See the YAML code for the details and feel free to customize as desired
+     * a "Device"-type action for device "Konnected Alarm Panel Pro" (or the id of the panel) with action "Turn on Siren" 
+       (assuming that you named "Siren" the output terminal connected to your siren)
+   * if you have smart lighting controlled by Home Assistant, consider adding here actions to turn on those indoor and outdoor lights you'd want on if a burglary was in progress.
 
 * Intrusion: Response - Buzzer
   * consider making a duplicate of the previous action, from which you will replace the siren with the buzzer. The rationale is to create a rule that is identical to the full trigger response, but does not use the siren.
