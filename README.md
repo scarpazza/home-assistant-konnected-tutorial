@@ -122,38 +122,8 @@ The main purpose of this step is to simplify trigger rules and sensor testing. T
 
 Even if you don't care about grouping sensors by type, it's still useful to create at least one group where they all belong: this makes it easier for you write trigger automations.
 
-You do this by adding the following contents to your `groups.yaml` file.
-You might have to remove the original `[]` contents, if that's what you have in that file.
-
-```
-motion_sensors:                                                                                                          
-    name: Motion Sensors                                                                                                 
-    icon: hass:walk                                                                                                      
-    entities:                                                                                                            
-     - binary_sensor.upstairs_motion                                                                                     
-     - binary_sensor.basement_motion                                                                                     
-     - binary_sensor.dining_room_motion                                                                                                                                                                      
-door_sensors:                                                                                                            
-    name: Door Sensors                                                                                                   
-    icon: hass:door                                                                                                      
-    entities:                                                                                                            
-     - binary_sensor.front_door                                                                                          
-     - binary_sensor.garage_door                                                                                         
-     - binary_sensor.breakfast_corner_door                                                                               
-     - binary_sensor.living_room_slides   
-     - binary_sensor.living_room_door                                                                                    
-     - binary_sensor.basement_door                                                                                  
-window_sensors:                                                                                                          
-    name: Window Sensors                                                                                                 
-    icon: hass:window-closed                                                                                             
-    entities:                                                                                                            
-     - binary_sensor.breakfast_corner_window                                                                             
-     - binary_sensor.dining_room_windows                                                                                 
-     - binary_sensor.laundry_room_window                                                                                 
-     - binary_sensor.living_room_windows                                                                                 
-     - binary_sensor.basement_windows                                                                                    
-     - binary_sensor.tv_room_windows      
-```
+You do this by adding to your `groups.yaml` file the contents in [sensor-groups.yaml](sensor-groups.yaml).
+(Remove the original `[]` contents, if that's all you have in that file.)
 
 
 ## Step 5 - user interface
@@ -265,11 +235,27 @@ I list the automations in order of importance, with the names that I suggest:
   * I also have a notification, a smart speaker text-to-speech announcement and a buzzer feedback. 
   * The final "turn off buzzer" action finally catches any buzzer activity started in the pending state.
 
+  
 ## Step 8 - smart automations
 
-You should now consider creating "smart" automations, i.e., alarm-related functions that Home Assistant can perform thanks to its app, and that traditional 1990s alarm systems would not offer. Most prominently, this includes presence detection.  
-
-I won't describe them in length because you'll be an automation expert by now. 
+You should now consider creating "smart" automations, i.e., alarm-related functions that Home Assistant can perform thanks to its app, and that traditional 1990s alarm systems would not offer. 
+  
+Most prominently, this includes automated arm/disarm/prompt actions based on your presence or proximity to the house, detected via the mobile apps.
+  
+Start configuring your people and associated on device tracker per person. 
+Device trackers become available only after you have configured mobile apps.
+  
+You now want to define a family group for presence tracking purposes, by adding the following to your `groups.yaml` file.
+```
+family
+  friendly_name: Family
+  entity_id:
+  - device_tracker.person1
+  - device_tracker.person2
+  - device_tracker.person3  
+```  
+  
+  
 I found the following to be useful:
 
 * Intrusion: [auto-arm at bed time if you are home](auto-arm.yaml)
