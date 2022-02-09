@@ -1,0 +1,26 @@
+alias: 'Intrusion: pre-trigger warning'
+description: 'System behavior during the grace period between the time an intrusion is detected and the system triggers'
+trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: pending
+condition: []
+action:
+  - service: notify.notify
+    data:
+      title: INTRUSION DETECTED
+      message: Disarm the system NOW if you want to prevent the siren from activating.
+  - service: script.sonos_say
+    data:
+      sonos_entity:
+        - media_player.kitchen
+      volume: 0.9
+      message: >-
+        WARNING! You just entered the home with the alarm armed. Disable the
+        alarm now if you do not want the siren to activate.  WARNING! You just
+        entered the home with the alarm armed. Disable the alarm now if you do
+        not want the siren to activate. WARNING! You just entered the home with
+        the alarm armed. Disable the alarm now if you do not want the siren to
+        activate.
+      delay: '00:00:25'
+mode: single
