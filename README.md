@@ -194,8 +194,8 @@ I list the automations in order of importance, with the names that I suggest:
 * Intrusion: [Trigger response - siren](trigger-response-siren.yaml)
    * in this automation, list what actions you want the system to carry out when the alarm triggers, i.e., when it believes that an actual intrusion is in progress
    * the trigger for this automation is a state transition of `alarm_control_panel.home_alarm` changing to `triggered`
-   * there are no conditions
-   * the actions are:
+   * do not specify any conditions
+   * add two actions are:
      * "Call Service" for service `notify.notify` with a notification message. See the YAML code for the details and feel free to customize as desired
      * a "Device"-type action for device "Konnected Alarm Panel Pro" (or the id of the panel) with action "Turn on Siren" 
        (assuming that you named "Siren" the output terminal connected to your siren)
@@ -237,22 +237,33 @@ I list the automations in order of importance, with the names that I suggest:
   * this is a mirror image of the previous rule. Create it by duplicating the previous one
   * the Trigger is a change in the State of `alarm_control_panel.home_alarm` from `arming` (leave the "to" field empty),
   * the Action is "Turn off the buzzer".
-* Intrusion: pre-trigger warning:
-  * when the State of `alarm_control_panel.home_alarm` becomes `pending`,
+
+* Intrusion: [Pre-trigger warning](pre-trigger-warning.yaml)
+  * This automation controls how the system behaves during the grace period between the time it detects and intrusion and the time it triggers
+    * This grace period is controlled by property `delay_time` in your `configuration.yaml`. 
+    * A typical value is 30 seconds.
+    * The grace period is intented for legitimate occupants to disarm the system once they realized they entered the home without first disarming the system.
+  * Triggers: when the State of `alarm_control_panel.home_alarm` becomes `pending`,
   * Actions:
-    * send a notification
-      * title: INTRUSION DETECTED
-      * message: Disarm the system NOW if you want to prevent the siren from activating.
+    * send an appropriate notification (see the YAML file for details)
     * turn on the buzzer
-* Intrusion: disarm response
-  * When the State of `alarm_control_panel.home_alarm` becomes `disarmed`
+    * announce that the alarm is about to go off via smart speakers using text to speech features
+
+* Intrusion: [Disarm response](disarm-response.yaml)
+  * Add to this automation all the actions you want the system to carry out when the system is disarmed.
+  * Triggers: when the State of `alarm_control_panel.home_alarm` becomes `disarmed`
+  * No conditions
   * Actions:
     * turn off the siren,
     * send an appropriate notification
-    * turn on buzzer
+    * announce that the system is disarmed via smart speakers using text-to-speech features;
+    * turn on the buzzer
     * add a 1-2 seconds delay, then
     * turn off the buzzer.
-  * The reason why you want these three actions is to handle the diverse incoming transitions (from `armed`, `pending`, and `triggered`). The buzzer and the siren states are different depending on them. Actions will first turn off the Siren, so that this disarm response also acts as a "clear-all". Then, have a 1-2 second buzz to give auditory feedback when the user does a clean disarm. Finally, turn off the buzzer, which also stop the buzzer that started in the pending status.
+  * Make sure that you define a set of actions that handle cleanly a transition from any possible state (from `armed`, `pending`, or `triggered`), because buzzer and siren states differ depending on the previous system state. 
+  * The actions I chose will first turn off the siren so that this disarm response also acts as a "clear-all". 
+  * I also have a notification, a smart speaker text-to-speech announcement and a buzzer feedback. 
+  * The final "turn off buzzer" action finally catches any buzzer activity started in the pending state.
 
 ## Step 8 - smart automations
 
