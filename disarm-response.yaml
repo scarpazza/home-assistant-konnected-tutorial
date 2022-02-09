@@ -1,0 +1,34 @@
+alias: 'Intrusion: disarm response'
+description: Actions taken when the alarm is disarmed, including notify the users and turning off sirens and buzzers
+trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: disarmed
+action:
+  - service: notify.notify
+    data:
+      title: Intrusion Alarm Status
+      message: The alarm is now disarmed ({{ states('sensor.date_time') }})
+      data:
+        tag: intrusion-status
+  - type: turn_off
+    device_id: fd74f7383b86bbd584f1f4da68e544f7
+    entity_id: switch.siren
+    domain: switch
+  - service: script.sonos_say
+    data:
+      sonos_entity:
+        - media_player.kitchen
+      volume: 0.05
+      message: The intrusion alarm is now disarmed.
+      delay: '00:00:06'
+  - type: turn_on
+    device_id: fd74f7383b86bbd584f1f4da68e544f7
+    entity_id: switch.buzzer_2
+    domain: switch
+  - delay: '2'
+  - type: turn_off
+    device_id: fd74f7383b86bbd584f1f4da68e544f7
+    entity_id: switch.buzzer_2
+    domain: switch
+mode: single
