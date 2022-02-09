@@ -261,15 +261,12 @@ I found the following to be useful:
 
 * Intrusion: [auto-arm at bed time if you are home](auto-arm.yaml)
 
-* Intrusion: [auto-disarm the system at your typical wake-up time](auto-disarml.yaml)
+* Intrusion: [auto-disarm the system at your usual wake-up time](auto-disarml.yaml)
   
 * Intrusion: disarm reminder - returning home
   * sends you a notification reminding you to disarm the system 
   * if you are coming home 
   * and the system is armed (either `armed_home` or `armed_away`).
-  
-* Intrusion: reminder to arm when you leave
-
   
 * Intrusion: [suggest arming the system when everybody has left the home](suggest-arm-everybody-left.yaml)
   * whenever all registered users leave the home, it sends you an [Actionable Notification](https://companion.home-assistant.io/docs/notifications/actionable-notifications/) prompting you to arm the system 
