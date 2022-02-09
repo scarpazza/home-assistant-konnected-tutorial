@@ -269,17 +269,19 @@ I found the following to be useful:
   * and the system is armed (either `armed_home` or `armed_away`).
   
 * Intrusion: reminder to arm when you leave
-  * sends you a notification reminding you to arm the system 
-  * if you are leaving home and 
-  * the system is not `armed`;
-  * the reminder gives you the option *not* to arm the system if you know there are non-app occupants home (e.g., relatives, babysitters, etc.). 
-  * if you know with certainty that you will never leave the home to non-tracked occupants, you can change this automation so that it arms the system.
+
   
 * Intrusion: [suggest arming the system when everybody has left the home](suggest-arm-everybody-left.yaml)
+  * whenever all registered users leave the home, it sends you an [Actionable Notification](https://companion.home-assistant.io/docs/notifications/actionable-notifications/) prompting you to arm the system 
+  * an Actionable Notification is a message that your phone's OS displays together with buttons or links to perform associated actions
+  * we give users the option to do nothing, in case they knew that there are untracked  legitimate occupants staying at home (e.g., relatives, babysitters, etc.). 
+  * if you know with certainty that you will never leave the home to non-tracked occupants, you can change short-circuit this automation so that it arms the system.
   
 * Intrusion: [suggest arming the system when nobody is home at night](suggest-arm-late-nobody-home.yaml)
   Suggest arming (away) at a given time in the evening if no member of the family is home
 
+  
+  
 ## Step 9 - repeat for the fire/CO alarm
 
 Repeat Steps 4...8 for the fire and carbon monoxide alarm system.
