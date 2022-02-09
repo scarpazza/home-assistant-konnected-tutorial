@@ -256,7 +256,7 @@ family
 ```  
   
   
-I found the following to be useful:
+I recommend the following automations:
 
 * Intrusion: [auto-arm at bed time if you are home](auto-arm.yaml)
 
