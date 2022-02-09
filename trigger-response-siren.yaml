@@ -1,0 +1,19 @@
+alias: 'Intrusion: trigger response - Siren - LEAVE ON EXCEPT WHEN TESTING'
+description: 'This automation is the response to an alarm trigger - what you want to happen when an intrusion is in progress'
+trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: triggered
+condition: []
+action:
+  - service: notify.notify
+    data:
+      title: Intrusion in progress!
+      message: Alarm triggered at {{ states('sensor.date_time') }}
+      data:
+        tag: intrusion-triggered
+  - type: turn_on
+    device_id: fd74f7383b86bbd584f1f4da68e544f7
+    entity_id: switch.siren
+    domain: switch
+mode: single
