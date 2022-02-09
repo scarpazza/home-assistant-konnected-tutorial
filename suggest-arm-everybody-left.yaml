@@ -1,6 +1,7 @@
 # Attention: 
 # - group.family is a placeholder for your group containing the members of your family 
-# - mobile_app_YOUR_PHONE1 and mobile_app_YOUR_PHONE2 are placeholders for your mobile app instance names, typically one per phone
+# - mobile_app_SAMPLE_ANDROID_PHONE and mobile_app_SAMPLE_IPHONE are placeholders for your mobile app instance names, 
+#   Android and Apple iOS respectively
 #
 
 alias: 'Intrusion: suggest arming when everybody leaves'
@@ -14,11 +15,13 @@ condition:
     entity_id: alarm_control_panel.home_alarm
     state: disarmed
 action:
-  - service: notify.mobile_app_YOUR_PHONE1
+  - service: notify.mobile_app_SAMPLE_ANDROID_PHONE
     data:
       message: Everybody left. Arm the burglary alarm?
+      title: Consider arming the intrusion alarm      
       data:
         tag: intrusion-suggest-arm
+        url: /lovelace/security
         actions:
           - action: ARM_AWAY
             title: Arm away
@@ -27,15 +30,19 @@ action:
           - action: DO_NOTHING
             title: Do nothing
   - service: notify.mobile_app_YOUR_PHONE2
-    data:
-      message: Everybody left. Arm the burglary alarm?
+   data:
+      message: Everybody left home. Arm the system? Long press to see options.
       data:
         tag: intrusion-suggest-arm
+        url: /lovelace/security
         actions:
           - action: ARM_AWAY
             title: Arm away
+            destructive: true
           - action: ARM_HOME
             title: Arm home
+            destructive: true
           - action: DO_NOTHING
-            title: Do nothing
+            title: Hide this notification
+      title: Consider arming the intrusion alarm
 mode: single
