@@ -1,0 +1,48 @@
+# 
+# Enter this as a first automation, independent from the one below
+#
+
+alias: 'Intrusion: notification action ARM_HOME response'
+description: >-
+  This automation is triggered when a user taps on action "Arm Home" from a
+  mobile notification
+trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    id: arm_home_notification_action
+    event_data:
+      action: ARM_HOME
+condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: disarmed
+action:
+  - service: alarm_control_panel.alarm_arm_home
+    target:
+      entity_id: alarm_control_panel.home_alarm
+mode: single
+
+
+# 
+# Enter this as a second automation, independent from the one above
+#
+
+alias: 'Intrusion: notification action ARM_AWAY response'
+description: >-
+  This automation is triggered when a user taps on action "Arm Away" from a
+  mobile notification
+trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    id: arm_home_notification_action
+    event_data:
+      action: ARM_AWAY
+condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: disarmed
+action:
+  - service: alarm_control_panel.alarm_arm_away
+    target:
+      entity_id: alarm_control_panel.home_alarm
+mode: single
