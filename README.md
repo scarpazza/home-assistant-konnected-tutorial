@@ -3,10 +3,10 @@
 This is a minimalistic, step-by-step tutorial on how to bring up a full-featured alarm system based on the Konnected Alarm Pro board in Home Assistant.
 
 ## Motivation
-I wrote this tutorial because I found existing documentation somewhat lacking on what exact functions are built into Home Assistant's `manual` alarm panel, and what functions you must add yourself to bring up a functional system. Inexperienced Konnected.io users seem to be especially puzzled by `manual`'s documentation, that does not seem to be designed for begineers. 
+I wrote this tutorial because I found existing documentation lacking in their coverage of the distinction between the functions built into Home Assistant's `manual` alarm panel and those you must add yourself to bring up a functional system. New users of Konnected.io with no prior Home Assistant experience seem especially puzzled by `manual`'s documentation. 
 
 ## Audience
-My ideal reader is someone who just unboxed his Konnected boards and wants to integrate them into a Home Assistant setup, but has no prior experience doing so. This tutorial has many limitations and teaches by example rather than covering concepts in depth. That's by design: it's intended for audiences who prefer understanding a design as they bring it up, as opposed to audiences who prefer mastering Home Assistant concepts before writing any configuration code. 
+My ideal reader is someone who just unboxed his Konnected boards and wants to integrate them into an existing Home Assistant setup, but has no prior experience with HA's alarm panels. This tutorial has many limitations and teaches by example rather than covering concepts in depth. That's by design: it's intended for audiences who prefer understanding a design as they bring it up, as opposed to audiences who prefer mastering Home Assistant concepts before writing any configuration code. 
 
 I *learn with my hands*. If you are like me, this tutorial might be a more useful initial starting point than HA documentation.
 
