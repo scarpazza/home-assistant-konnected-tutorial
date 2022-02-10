@@ -255,10 +255,20 @@ family
   - device_tracker.person3  
 ```  
   
+This will act as your family group for the purpose of determining if someone is at home.
+Ideally, the system should prompt you to arm as soon as nobody is home, and remind you to unarm as soon as someone is coming home.
+The `family` group works well for that purpose:
+- each device tracker is either in a `home` or `not_home` state
+- [Groups](https://www.home-assistant.io/integrations/group) in Home Assistant by default 
+  have a state that is the "logical OR" of the states of the member entities;
+  (you can change it to a logical AND, but you shouldn't in this context);
+- this means that the group will be in state `home` when at least one of the trackers are home;
+- and the group will be in state `not_home` when all of the trackers are not at home.
   
-I recommend the following automations:
+  
+Once your family group is established, I recommend the following automations:
 
-* Intrusion: [auto-arm at bed time if you are home](auto-arm.yaml)
+* Intrusion: [auto-arm at bed time if someone is home](auto-arm.yaml)
 
 * Intrusion: [auto-disarm the system at your usual wake-up time](auto-disarml.yaml)
   
@@ -277,8 +287,10 @@ I recommend the following automations:
   Suggest arming (away) at a given time in the evening if no member of the family is home
 
 * Intrusion: [Notification action responses](notification-action-responses.yaml)
-  * Arm or disarm the system to honor user requests coming via
+  * This is just internal machinery designed to process the user requests coming via
     action prompts presented via *Actionable notifications*, described above. 
+  * You need to separate handlers, one for `ARM_HOME` and one for `ARM_AWAY`.
+    See the YAML source file for details.
   
 ## Step 9 - repeat for the fire/CO alarm
 
