@@ -236,16 +236,28 @@ I list the automations in order of importance, with the names that I suggest:
   * The final "turn off buzzer" action finally catches any buzzer activity started in the pending state.
 
   
-## Step 8 - smart automations
+## Step 8 - geofencing automations
 
-You should now consider creating "smart" automations, i.e., alarm-related functions that Home Assistant can perform thanks to its app, and that traditional 1990s alarm systems would not offer. 
+You should now consider smarter automations, primarily alarm geofencing, that Home Assistant can perform thanks to its app running on a GPS-enabled mobile phone. Geofencing is the most prominent feature that the traditional 1990s systems would not offer. 
   
-Most prominently, this includes automated arm/disarm/prompt actions based on your presence or proximity to the house, detected via the mobile apps.
+My philosophy is that I prefer to keep humans in the loop, so my automations do not always arm or disarm the system when your presence
+in proximity of the house changes. It rather prompts you with suggestions to arm or disarm.
+Of course, the automations I present are just examples, and you should configure yours to suit your unique needs.
   
-Start configuring your people and associated on device tracker per person. 
-Device trackers become available only after you have configured mobile apps.
+### Set up people and mobile apps
   
-You now want to define a family group for presence tracking purposes, by adding the following to your `groups.yaml` file.
+Configuring your people:
+  - create one user for each person that you want to be able to control the alarm system
+  - set the respective passwords
+  - install the Home Assistant mobile app on each phone
+  - log in on each phone with the respective user-password pairs you set up
+  - in *People* configuration, populate the "Track Device" fields, associating to each person the respective device.
+  
+Note that device tracker entities become available in Home Assistant only after you have configured each mobile app.
+  
+### Define a family group
+  
+You now want to define a family group for presence-tracking purposes, by adding the following to your `groups.yaml` file.
 ```
 family
   friendly_name: Family
@@ -265,6 +277,7 @@ The `family` group works well for that purpose:
 - this means that the group will be in state `home` when at least one of the trackers are home;
 - and the group will be in state `not_home` when all of the trackers are not at home.
   
+### Write your geo-fenced automations
   
 Once your family group is established, I recommend the following automations:
 
