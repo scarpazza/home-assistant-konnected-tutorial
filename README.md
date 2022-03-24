@@ -238,7 +238,29 @@ I list the automations in order of importance, with the names that I suggest:
 ### Text to speech
 In the previous sections I mentioned text-to-speech announcements associated with alarm status transitions.
 At home I have Sonos smart speakers, and I use those for the announcements.
-I play those announcements via actions relying on a[Sonos TTS script](sonos-tts-script.yaml) that is designed to pause the music being currently played on the speaker, get the announcement wavefile as rendered by a Google TTS call, play the announcement, and restore the smart speaker state (which will resume playing any music it was playing before the announcement, if any).
+I play those announcements via actions relying on a [Sonos TTS script](sonos-tts-script.yaml) that is designed to pause the music being currently played on the speaker, get the announcement wavefile as rendered by a Google TTS call, play the announcement, and restore the smart speaker state (which will resume playing any music it was playing before the announcement, if any).
+  
+You will need the following entries in your `configuration.yaml` file to use Google's TTS interface:
+ 
+```
+tts:
+  - platform: google_translate               
+    cache: true
+    cache_dir: /tmp/tts-cache    
+    time_memory: 36000
+    base_url: https://your_domain_name.duckdns.org:8123   
+```
+  
+Caveats:
+1. While the rest of the intrusion alarm is entirely self sufficient and able to work locally 
+   (including during network loss intentionally cause by burglars), this TTS function relies on 
+   access to Google. There are alternative TTS engines you can configure locally, but I haven't explored them yet.
+2. I manually created `/tmp/tts-cache` on my linux box where I run Home Assistant Core. 
+   If you run on a different platform, adapt the cache directory accordingly.
+3. Provide your external URL as a parameter to `base_url`.
+   You can set up external HTTPS access following [this tutorial](https://github.com/scarpazza/home-assistant-cookbook/blob/main/https.md).
+  
+  
   
 ## Step 8 - geofencing automations
 
