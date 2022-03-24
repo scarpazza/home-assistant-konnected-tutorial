@@ -302,8 +302,8 @@ Note that device tracker entities become available in Home Assistant only after 
   
 You now want to define a family group for presence-tracking purposes, by adding the following to your `groups.yaml` file.
 ```
-family
-  friendly_name: Family
+family:
+  name: Family
   entity_id:
   - device_tracker.person1
   - device_tracker.person2
