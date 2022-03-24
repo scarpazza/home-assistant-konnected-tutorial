@@ -159,6 +159,23 @@ Consider that the when your triggers fire, the alarm does NOT transition to stat
 
 Similarly, when press the "arm home"  or "arm away" buttons, the alarm transitions into the `arming` state before it transitions into the respective armed status. That's designed to give you time to exit the house. I also sound the buzzer during that period.
 
+To support automations that rely on time and date, add the following entry under your `sensor:` section in your `configuration.yaml` file:
+
+```
+sensor:
+  # ...
+  - platform: time_date                
+    display_options:
+      - 'time'
+      - 'date'     
+      - 'date_time'    
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'             
+```
+  
 I list the automations in order of importance, with the names that I suggest:
 
 * Intrusion: [Trigger response - siren](trigger-response-siren.yaml)
