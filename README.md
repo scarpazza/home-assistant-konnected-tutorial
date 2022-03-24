@@ -326,7 +326,7 @@ Once your family group is established, I recommend the following automations:
 
 * Intrusion: [auto-arm at bed time if someone is home](auto-arm.yaml)
 
-* Intrusion: [auto-disarm the system at your usual wake-up time](auto-disarml.yaml)
+* Intrusion: [auto-disarm the system at your usual wake-up time](auto-disarm.yaml)
   
 * Intrusion: disarm reminder - returning home
   * sends you a notification reminding you to disarm the system 
