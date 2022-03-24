@@ -306,7 +306,7 @@ You now want to define a family group for presence-tracking purposes, by adding 
 ```
 family:
   name: Family
-  entity_id:
+  entities:
   - device_tracker.person1
   - device_tracker.person2
   - device_tracker.person3  
