@@ -14,6 +14,8 @@ My design decisions are somewhat arbitrary, and tuned to my very personal needs.
 
 All feedback is welcome, but I'll make corrections only workload and family permitting. I have a full time job, two kids and other hobbies.
 
+## Acknowledgments 
+Many thanks to @johnny-co for his help in testing and fixing my typos.
 
 ## Step 1 - configure the boards
 
