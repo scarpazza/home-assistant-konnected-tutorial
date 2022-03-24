@@ -80,14 +80,14 @@ You do so by editing your `configuration.yaml` file.
 
 You might be surprised by my example creating not one but two panels: one for intrusion and for fire/CO (CO: carbon monoxide detection).
 
-I recommend two distinct panels because you want them to behave differently. Specifically, you may want to arm/disarm the intrusion alarm automatically according to presence in the house, whereas fire/CO detection should always active (except for exceptional circumstances like maintenance or incident investigation).
+I recommend two distinct panels because you want them to behave differently. Specifically, you may want to arm/disarm the home intrusion alarm automatically according to presence in the house, whereas fire/CO detection should always active (except for exceptional circumstances like maintenance or incident investigation).
 
 Here are the lines I added in my `configuration.yaml`:
 
 ```
 alarm_control_panel:
   - platform: manual
-    name: Intrusion Alarm
+    name: Home Alarm
     arming_time: 15
     delay_time: 30
     trigger_time: 180
