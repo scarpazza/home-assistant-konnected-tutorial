@@ -137,7 +137,9 @@ You do this by adding to your `groups.yaml` file the contents in [sensor-groups.
 
 In this step you add the alarm user interface cards to HA's Lovelace dashboards.
 
-You need to create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
+Create and use a new view named 'Security' and matching url 'security'. This becomes important in scripts below.
+
+Then create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
 
 In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours, displaying it against your presence at home. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. 
 
