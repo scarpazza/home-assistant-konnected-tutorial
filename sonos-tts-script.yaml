@@ -1,21 +1,47 @@
-alias: Sonos TTS script
+alias: Sonos Say
+fields:
+  sonos_entity:
+    description: The entity or group of the sonos
+    example: group.intrusion_media_players
+    default: media_player.sonos_move
+  message:
+    description: The message content
+    example: The alarm is on!
+    default: The alarm is on!
+  volume:
+    description: The volume
+    example: '0.5'
+    default: '0.5'
 sequence:
+  - variables:
+      sonos_volume: "{{ states[sonos_entity].attributes.volume_level }}"
   - service: sonos.snapshot
-    data:
+    data_template:
       entity_id: '{{ sonos_entity }}'
   - service: sonos.unjoin
-    data:
+    data_template:
       entity_id: '{{ sonos_entity }}'
   - service: media_player.volume_set
-    data:
+    data_template:
       entity_id: '{{ sonos_entity }}'
       volume_level: '{{ volume }}'
   - service: tts.google_translate_say
-    data:
+    data_template:
       entity_id: '{{ sonos_entity }}'
       message: '{{ message }}'
-  - delay: '{{ delay }}'
+  - delay: '00:00:01'
+  - delay: >-
+      {% set duration = states[sonos_entity].attributes.media_duration %} {% if
+      duration > 0 %}
+        {% set duration = duration - 1 %}
+      {% endif %} {% set seconds = duration % 60 %} {% set minutes = (duration /
+      60)|int % 60 %} {% set hours = (duration / 3600)|int %} {{ [hours,
+      minutes, seconds]|join(':') }}
   - service: sonos.restore
-    data:
+    data_template:
       entity_id: '{{ sonos_entity }}'
+  - service: media_player.volume_set
+    data_template:
+      entity_id: '{{ sonos_entity }}'
+      volume_level: '{{ sonos_volume }}'
 mode: single
