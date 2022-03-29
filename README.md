@@ -43,7 +43,7 @@ The decision is up to you: the device can be operated in the SmartThings and Hom
 
 ## Step 2 - integration
 
-This step configures the Konnected integration.
+A. Configure the Konnected integration.
 
 Start this process in the Home Assistant UI by selecting "Configuration", then "Integrations", then "Konnected.io". 
 After you provide your Konnected username and password, HomeAssistant must create one device for each board you have.
@@ -57,6 +57,11 @@ Even if it takes extra time, choose good, descriptive names for the zones now, a
 
 Good examples of descriptive names are "Bedroom window sensor", "Living room motion sensor" and "Boiler room CO detector".
 
+B. Configure additional (optional) support systems
+Studio Code Server - Tool to easily modify configuration.yaml, scripts.yaml, groups.yaml, automations.yaml, etc.
+	- Install via Configuration / Add-ons
+	
+Sonos - Use Sonos TTS to give verbal warnings, eg. 'Disarm before alarm sounds', 'House Armed', etc.
 
 ## Step 3 - create the alarm automaton
 
