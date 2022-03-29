@@ -43,7 +43,7 @@ The decision is up to you: the device can be operated in the SmartThings and Hom
 
 ## Step 2 - integration
 
-This step configures the Konnected integration.
+A. Configure the Konnected integration.
 
 Start this process in the Home Assistant UI by selecting "Configuration", then "Integrations", then "Konnected.io". 
 After you provide your Konnected username and password, HomeAssistant must create one device for each board you have.
@@ -57,6 +57,11 @@ Even if it takes extra time, choose good, descriptive names for the zones now, a
 
 Good examples of descriptive names are "Bedroom window sensor", "Living room motion sensor" and "Boiler room CO detector".
 
+B. Configure additional (optional) support systems
+Studio Code Server - Tool to easily modify configuration.yaml, scripts.yaml, groups.yaml, automations.yaml, etc.
+	- Install via Configuration / Add-ons
+	
+Sonos - Use Sonos TTS to give verbal warnings, eg. 'Disarm before alarm sounds', 'House Armed', etc.
 
 ## Step 3 - create the alarm automaton
 
@@ -132,7 +137,9 @@ You do this by adding to your `groups.yaml` file the contents in [sensor-groups.
 
 In this step you add the alarm user interface cards to HA's Lovelace dashboards.
 
-You need to create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
+Create and use a new view named 'Security' and matching url 'security'. This becomes important in scripts below.
+
+Then create at least the control panel card. In the example figure below, it's the one called "Home Alarm" in the left column.
 
 In addition to that, I recommend you create a history card that tracks the alarm state in the last 24 hours, displaying it against your presence at home. In the example below, I chart alarm status against me and my wife's presence at home. Presence here is detected via Zone and mobile phone sensors. 
 
