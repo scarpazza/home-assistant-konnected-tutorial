@@ -17,6 +17,10 @@ All feedback is welcome, but I'll make corrections only workload and family perm
 ## Acknowledgments 
 Many thanks to @johnny-co for his help in testing and fixing my typos.
 
+## Mistakes and improvements
+I no longer maintain this project regularly, and therefore I encourage correctionst and updates from the community.
+Feel free to open issues and send pull requests.
+
 ## Step 1 - configure the boards
 
 Start configuring the Konnected boards from the Konnected mobile phone app including inclusion into your home wi-fi network. While this step is pretty straightforward and already documented plenty elsewhere, there is one important caveat that has to do with your phone's OS.
@@ -158,7 +162,55 @@ Do a walkaround of the house, with your phone in your hand, explicitly triggerin
 
 Finally, trigger the buzzers manually and trigger the siren manually, verifying they behave as desired.
 
-## Step 7 - core automations
+
+## Step 7 - System health sensors and groups
+
+This is a more recent addition to my set up, intended to prevent silent failures.
+I'm especially interested in monitoring the reachability of the Konnected boards from Home Assistant.
+In one instance I found that both my Konnected boards "fell off" my home network (either hung or stopped being reachable), and the system failed silently. The HA alarm panel would arm and disarm according to the automations, but would be really blind to any intrusion, because door sensor events or motion sensor events could not reach the HA server... because the Konnected boards were not on the network.
+
+To counter that, I define as many `ping` sensors as Konnected boards I have:
+(do this in your `configuration.yaml`
+
+```                                                                                        
+binary_sensor:
+
+  - platform: ping
+    host: 192.168.x.y1
+    name: Konnected Board 1
+    count: 2
+    scan_interval: 10
+    
+  - platform: ping
+    host: 192.168.x.y2
+    name: Konnected Board 2                                                            
+    count: 2
+    scan_interval: 10
+```
+Correct both `host:` entries, placing there the static IP addresses of your Konnected boards.
+Each of these sensors will ping the corresponding board every ten seconds, return a `false` truth value when the board misses two pings in a sequence.
+
+If you have multiple boards, you also want to create a corresponding group in your `groups.yaml`:
+```
+konnected_boards:
+    name: Konnected Boards
+    icon: mdi:lan-connect
+    all: true
+    entities:
+    - binary_sensor.konnected_board_1
+    - binary_sensor.konnected_board_2
+```
+
+Pay attention to configuration variable `all` being set to `true`. 
+By default, sensor groups are "on" when any of the sensors in the group is "on". 
+This behavior is not the desired one - you rather want HA to declare your system healthy when **all** boards are connected.
+Variable `all: true` achieves that goal.
+
+In your lovelace dashboard, add appropriate cards to track system health, e.g.:
+- A History Graph card containing the status of `group.konnected_boards` over time, and maybe even of each board.
+- A badge representing the status of each `binary_sensor.konnected_board_xxx`.
+
+## Step 8 - core automations
 
 In this step you will create automations (alarm triggers and responses) that perform those functions you would expect a traditional, keypad based, 1990s, "dumb" intrusion alarm system to perform: arm, disarm, trigger, sound the siren, send you notifications.
 
@@ -260,6 +312,9 @@ I list the automations in order of importance, with the names that I suggest:
   * The actions I chose will first turn off the siren so that this disarm response also acts as a "clear-all". 
   * I also have a notification, a smart speaker text-to-speech announcement and a buzzer feedback. 
   * The final "turn off buzzer" action finally catches any buzzer activity started in the pending state.
+  
+* System health changes: [System Health changes](system-health.yaml) 
+   * Notifies you explicitly when one of the Konnected boards becomes unreachable, and when all boards become reachable again.
 
 ### Text to speech
 In the previous sections I mentioned text-to-speech announcements associated with alarm status transitions.
@@ -288,7 +343,7 @@ Caveats:
   
   
   
-## Step 8 - geofencing automations
+## Step 9 - geofencing automations
 
 You should now consider smarter automations, primarily alarm geofencing, that Home Assistant can perform thanks to its app running on a GPS-enabled mobile phone. Geofencing is the most prominent feature that the traditional 1990s systems would not offer. 
   
@@ -357,7 +412,7 @@ Once your family group is established, I recommend the following automations:
   * You need to separate handlers, one for `ARM_HOME` and one for `ARM_AWAY`.
     See the YAML source file for details.
   
-## Step 9 - repeat for the fire/CO alarm
+## Step 10 - repeat for the fire/CO alarm
 
 Repeat Steps 4...8 for the fire and carbon monoxide alarm system.
 
