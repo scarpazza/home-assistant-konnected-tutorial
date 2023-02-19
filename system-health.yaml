@@ -1,0 +1,55 @@
+- id: '1676837520711'
+  alias: 'Intrusion: system health degraded'
+  description: Notify users when the system health degrades, i.e., one or more konnected
+    boards go offline
+  trigger:
+  - platform: state
+    entity_id: group.konnected_boards
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.notify
+    data:
+      title: Alarm system unhealthy
+      message: Unable to reach your alarm system boards. Check your network.
+      data:
+        tag: instrusion-system-health
+  - service: script.sonos_say
+    data:
+      sonos_entity:
+      - media_player.kitchen
+      volume: 0.6
+      message: 'Your alarm system is experiencing a networking issue and your boards
+        are not reachable.  Please troubleshoot this problem. I will now repeat this
+        message. Your alarm system is experiencing  a networking issue and your boards
+        are not reachable. Please troubleshoot this problem.'
+      delay: 00:00:25
+  mode: single
+  
+- id: '1676837731923'
+  alias: 'Intrusion: system health restored'
+  description: Notify users when the system health is restored, i.e., all konnected
+    boards come back online
+  trigger:
+  - platform: state
+    entity_id: group.konnected_boards
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.notify
+    data:
+      title: Alarm system now healthy
+      message: Your alarm systems boards are now reachable again. The system is now
+        reliable.
+      data:
+        tag: instrusion-system-health
+  - service: script.sonos_say
+    data:
+      sonos_entity:
+      - media_player.kitchen
+      volume: 0.5
+      message: 'Your alarm system has now regained connectivity with your boards and
+        it is now reliable again. I will now repeat this message. Your alarm system
+        has now regained connectivity with its boards  and it is now reliable again.'
+      delay: 00:00:25
+  mode: single
