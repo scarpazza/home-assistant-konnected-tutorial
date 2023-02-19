@@ -5,6 +5,7 @@ motion_sensors:
      - binary_sensor.upstairs_motion
      - binary_sensor.basement_motion
      - binary_sensor.dining_room_motion
+     
 door_sensors:
     name: Door Sensors
     icon: hass:door
@@ -16,6 +17,7 @@ door_sensors:
      - binary_sensor.living_room_slides
      - binary_sensor.living_room_door                                                                                    
      - binary_sensor.basement_door
+     
 window_sensors:                                                                                                          
     name: Window Sensors                                                                                                 
     icon: hass:window-closed                                                                                             
@@ -30,3 +32,11 @@ window_sensors:
      - binary_sensor.office_windows 
      - binary_sensor.master_bedroom_windows
      - binary_sensor.tv_room_windows
+     
+konnected_boards:
+    name: Konnected Boards
+    icon: mdi:lan-connect
+    all: true
+    entities:
+    - binary_sensor.konnected_board_1
+    - binary_sensor.konnected_board_2
