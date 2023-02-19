@@ -313,7 +313,7 @@ I list the automations in order of importance, with the names that I suggest:
   * I also have a notification, a smart speaker text-to-speech announcement and a buzzer feedback. 
   * The final "turn off buzzer" action finally catches any buzzer activity started in the pending state.
   
-* System health changes: [System Health changes](system-health.yaml) 
+* Intrustion: [System Health changes](system-health.yaml) 
    * Notifies you explicitly when one of the Konnected boards becomes unreachable, and when all boards become reachable again.
 
 ### Text to speech
